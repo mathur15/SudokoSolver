@@ -43,7 +43,7 @@ class SudokoSolver:
                     return False
         return True
 
-    def check_box(self,row,column,num):
+    def check_box(self, row, column, num):
         """
         Check box if num already exists in 3x3 box
         """
@@ -55,7 +55,7 @@ class SudokoSolver:
 
     def find_open_location(self):
         """
-        Find the row and column index where there is a 0
+        Find the first occurring row and column index where there is a 0
         """
         position = []
         count = 0
@@ -77,14 +77,15 @@ class SudokoSolver:
         row_index = position[0]
         column_index = position[1]
 
+        #base case
         if not self.find_open_location():
             return True
 
-        # do all possible numbers
+        # try all possible numbers
         for i in range(1, 10):
             if (self.check_box(row_index, column_index, i) and self.check_row(row_index, i)
               and self.check_column(column_index, i)):
-
+                    self.puzzle[row_index][column_index] = i
                     if self.backtracking():
                         return True
 
@@ -113,10 +114,7 @@ if __name__ == "__main__":
     solver_obj = SudokoSolver(test_puzzle)
     if solver_obj.is_valid():
         result = solver_obj.backtracking()
-        if not result:
-            print("No solution")
-        else:
-            solver_obj.print_result()
+        solver_obj.print_result()
 
 
 
