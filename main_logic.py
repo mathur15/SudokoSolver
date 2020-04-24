@@ -1,4 +1,4 @@
-class sudoko_solver:
+class SudokoSolver:
     """
     Solve puzzle
     """
@@ -7,11 +7,7 @@ class sudoko_solver:
 
     def is_valid(self):
         """
-        Check if the puzzle is valid
-        -> check entries
-        -> size of boxes
-        :param self: Puzzle
-        :return: bool
+        Check if puzzle is valid
         """
         size = self.puzzle.length()
         flag = True
@@ -26,8 +22,7 @@ class sudoko_solver:
 
     def check_row(self, row, num):
         """
-        :param row: row index to check
-        :return: bool
+        Check if row already consists of num.
         """
         length = len(self.puzzle)
         row = self.puzzle[row]
@@ -36,10 +31,10 @@ class sudoko_solver:
             if item == num:
                 return False
         return True
+    
     def check_column(self, column, num):
         """
-        :param column:
-        :return: bool
+        Check if column already consists of num.
         """
         # index to check in each sublist is the index corresponding to column
         for i in range(9):
@@ -50,9 +45,7 @@ class sudoko_solver:
 
     def check_box(self,row,column,num):
         """
-        :param row:
-        :param column:
-        :return:
+        Check box if num already exists in 3x3 box
         """
         for i in range(3):
             for j in range(3):
@@ -63,7 +56,6 @@ class sudoko_solver:
     def find_open_location(self):
         """
         Find the row and column index where there is a 0
-        :return: bool
         """
         position = []
         count = 0
@@ -79,38 +71,26 @@ class sudoko_solver:
     def backtracking(self):
         """
         Implement the backtracking algorithm on the puzzle
-        :param self:
-        :return: bool
         """
         position = self.find_open_location()
 
         row_index = position[0]
         column_index = position[1]
 
-        #base case
-        if(self.find_open_location() == []){
-            return True
-        }
+        # do all possible numbers
+        for i in range(1, 10):
+            if (self.check_box(row_index, column_index, i) and self.check_row(row_index, i)
+              and self.check_column(column_index, i)):
 
-        #do all possible numbers
-        for i in range (1,10):
-            #check constraint
-            if(self.check_box(row_index,column_index,i) and self.check_row(row_index,i)
-                and self.check_column(column_index,i)):
+                    if self.backtracking():
+                        return True
 
-                if(self.backtracking()):
-                    return True
-
-                self.puzzle[row_index][column_index] = 0
+                    self.puzzle[row_index][column_index] = 0
         return False
 
 
+if __name__ == "__main__":
 
-
-
-if name == "__main__":
-
-    #create it so that user inputs puzzle
     test_puzzle = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
                    [6, 0, 0, 1, 9, 5, 0, 0, 0],
                    [0, 9, 8, 0, 0, 0, 0, 6, 0],
@@ -120,11 +100,11 @@ if name == "__main__":
                    [0, 6, 0, 0, 0, 0, 2, 8, 0],
                    [0, 0, 0, 4, 1, 9, 0, 0, 5],
                    [0, 0, 0, 0, 8, 0, 0, 7, 9]]
-    solver_obj = sudoko_solver(test_puzzle)
+    solver_obj = SudokoSolver(test_puzzle)
     if solver_obj.is_valid():
         result = solver_obj.backtracking()
-        if !result:
-            print("No result found")
+        if not result:
+            print("No solution")
 
 
 
