@@ -9,16 +9,16 @@ class SudokoSolver:
         """
         Check if puzzle is valid
         """
-        size = self.puzzle.length()
+        size = len(self.puzzle)
         flag = True
         for row in self.puzzle:
-            if row.length() < 9:
+            if len(row) < 9:
                 flag = False
             else:
                 for elements in row:
                     if elements not in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]:
                         flag = False
-        return size == 9 and flag == True
+        return size == 9 and flag is True
 
     def check_row(self, row, num):
         """
@@ -31,7 +31,7 @@ class SudokoSolver:
             if item == num:
                 return False
         return True
-    
+
     def check_column(self, column, num):
         """
         Check if column already consists of num.
@@ -77,6 +77,9 @@ class SudokoSolver:
         row_index = position[0]
         column_index = position[1]
 
+        if not self.find_open_location():
+            return True
+
         # do all possible numbers
         for i in range(1, 10):
             if (self.check_box(row_index, column_index, i) and self.check_row(row_index, i)
@@ -87,6 +90,13 @@ class SudokoSolver:
 
                     self.puzzle[row_index][column_index] = 0
         return False
+
+    def print_result(self):
+        """
+        Output final grid
+        """
+        for i in range(9):
+            print(self.puzzle[i])
 
 
 if __name__ == "__main__":
@@ -105,6 +115,8 @@ if __name__ == "__main__":
         result = solver_obj.backtracking()
         if not result:
             print("No solution")
+        else:
+            solver_obj.print_result()
 
 
 
