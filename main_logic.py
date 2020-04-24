@@ -60,12 +60,54 @@ class sudoko_solver:
                     return False
         return True
 
+    def find_open_location(self):
+        """
+        Find the row and column index where there is a 0
+        :return: bool
+        """
+        position = []
+        count = 0
+        for i in range(9):
+            for j in range(9):
+                if self.puzzle[i][j] == 0 and count == 0:
+                    position.append(i)
+                    position.append(j)
+                    count = count + 1
+        return position
+
+
     def backtracking(self):
         """
         Implement the backtracking algorithm on the puzzle
         :param self:
         :return: bool
         """
+        position = self.find_open_location()
+
+        row_index = position[0]
+        column_index = position[1]
+
+        #base case
+        if(self.find_open_location() == []){
+            return True
+        }
+
+        #do all possible numbers
+        for i in range (1,10):
+            #check constraint
+            if(self.check_box(row_index,column_index,i) and self.check_row(row_index,i)
+                and self.check_column(column_index,i)):
+
+                if(self.backtracking()):
+                    return True
+
+                self.puzzle[row_index][column_index] = 0
+        return False
+
+
+
+
+
 if name == "__main__":
 
     #create it so that user inputs puzzle
