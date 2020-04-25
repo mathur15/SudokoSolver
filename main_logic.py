@@ -1,4 +1,4 @@
-class SudokoSolver:
+class sudoku_solver:
     """
     Solve puzzle
     """
@@ -47,9 +47,12 @@ class SudokoSolver:
         """
         Check box if num already exists in 3x3 box
         """
+        start_i_j = self.find_start(row, column)
+        start_row = start_i_j[0]
+        start_column = start_i_j[1]
         for i in range(3):
             for j in range(3):
-                if self.puzzle[row+i][j] == num:
+                if self.puzzle[start_row+i][start_column+j] == num:
                     return False
         return True
 
@@ -67,28 +70,36 @@ class SudokoSolver:
                     count = count + 1
         return position
 
+    def find_start(self, row, column):
+        """
+        Return the starting row and column index for the box the element
+        belongs to.
+        """
+        start_of_box = []
+        row_start_index = row % 3
+        column_start_index = column % 3
+        start_of_box.append(row-row_start_index)
+        start_of_box.append(column-column_start_index)
+        return start_of_box
 
     def backtracking(self):
         """
         Implement the backtracking algorithm on the puzzle
         """
         position = self.find_open_location()
-
-        row_index = position[0]
-        column_index = position[1]
-
-        #base case
-        if not self.find_open_location():
+        if not position:
             return True
+        else:
+            row_index = position[0]
+            column_index = position[1]
 
         # try all possible numbers
         for i in range(1, 10):
-            if (self.check_box(row_index, column_index, i) and self.check_row(row_index, i)
-              and self.check_column(column_index, i)):
+            if self.check_row(row_index, i) and self.check_column(column_index, i) \
+                    and self.check_box(row_index, column_index, i):
                     self.puzzle[row_index][column_index] = i
                     if self.backtracking():
                         return True
-
                     self.puzzle[row_index][column_index] = 0
         return False
 
@@ -111,7 +122,7 @@ if __name__ == "__main__":
                    [0, 6, 0, 0, 0, 0, 2, 8, 0],
                    [0, 0, 0, 4, 1, 9, 0, 0, 5],
                    [0, 0, 0, 0, 8, 0, 0, 7, 9]]
-    solver_obj = SudokoSolver(test_puzzle)
+    solver_obj = sudoku_solver(test_puzzle)
     if solver_obj.is_valid():
         result = solver_obj.backtracking()
         solver_obj.print_result()

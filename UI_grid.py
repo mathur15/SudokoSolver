@@ -1,8 +1,6 @@
 from tkinter import *
 
 main = Tk()
-
-entries = []
 for a in range(9):
     for b in range(9):
         temp = Entry(main)
