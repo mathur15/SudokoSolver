@@ -1,11 +1,13 @@
 import UI_grid as grid
 
-class sudoku_solver:
+
+class SudokuSolver:
     """
     Solve puzzle
     """
     def __init__(self, puzzle):
         self.puzzle = puzzle
+        grid.make_grid(self.puzzle)
 
     def is_valid(self):
         """
@@ -105,16 +107,14 @@ class sudoku_solver:
                     self.puzzle[row_index][column_index] = 0
         return False
 
-    def print_result(self):
+    def output_result(self):
         """
         Output final grid
         """
-        for i in range(9):
-            print(self.puzzle[i])
+        grid.make_grid(self.puzzle)
 
 
 if __name__ == "__main__":
-    grid.make_grid()
     test_puzzle = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
                    [6, 0, 0, 1, 9, 5, 0, 0, 0],
                    [0, 9, 8, 0, 0, 0, 0, 6, 0],
@@ -124,10 +124,10 @@ if __name__ == "__main__":
                    [0, 6, 0, 0, 0, 0, 2, 8, 0],
                    [0, 0, 0, 4, 1, 9, 0, 0, 5],
                    [0, 0, 0, 0, 8, 0, 0, 7, 9]]
-    solver_obj = sudoku_solver(test_puzzle)
+    solver_obj = SudokuSolver(test_puzzle)
     if solver_obj.is_valid():
         result = solver_obj.backtracking()
-        solver_obj.print_result()
+        solver_obj.output_result()
 
 
 
