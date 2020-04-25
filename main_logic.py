@@ -1,3 +1,5 @@
+import UI_grid as grid
+
 class sudoku_solver:
     """
     Solve puzzle
@@ -112,7 +114,7 @@ class sudoku_solver:
 
 
 if __name__ == "__main__":
-
+    grid.make_grid()
     test_puzzle = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
                    [6, 0, 0, 1, 9, 5, 0, 0, 0],
                    [0, 9, 8, 0, 0, 0, 0, 6, 0],
